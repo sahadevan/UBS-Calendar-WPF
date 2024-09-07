@@ -37,11 +37,12 @@
                     <Border BorderBrush="LightGray" BorderThickness="1" Margin="1" Visibility="{Binding DayNumber, Converter={StaticResource DayNumberToVisibiltyConverter}}">
                         <Label Content="{Binding DayNumber}"
                            Background="{Binding IsHoliday, Converter={StaticResource HolidayBackgroundConverter}}"
-                           ToolTip="{Binding HolidayReason}"
+                           ToolTip="{Binding HolidayReason}" ToolTipService.IsEnabled="{Binding IsHoliday}"
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Center"
-                           Margin="2" />
-                        </Border>
+                           Margin="2" >
+                        </Label>
+                    </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
         </ItemsControl>
