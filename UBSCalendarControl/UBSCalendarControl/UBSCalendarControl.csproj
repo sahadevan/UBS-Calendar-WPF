@@ -55,18 +55,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BooleanToVisibilityConverter.cs" />
-    <Compile Include="DayNumberToVisibiltyConverter.cs" />
-    <Compile Include="DayModel.cs" />
-    <Compile Include="HolidayBackgroundConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DayNumberToVisibiltyConverter.cs" />
+    <Compile Include="Model\DayModel.cs" />
+    <Compile Include="Converters\HolidayBackgroundConverter.cs" />
     <Compile Include="UBSCalendar.xaml.cs">
       <DependentUpon>UBSCalendar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UBSCalendarViewModel.cs" />
+    <Compile Include="ViewModel\UBSCalendarViewModel.cs" />
     <Compile Include="UBSMonthView.xaml.cs">
       <DependentUpon>UBSMonthView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UBSMonthViewModel.cs" />
+    <Compile Include="ViewModel\UBSMonthViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

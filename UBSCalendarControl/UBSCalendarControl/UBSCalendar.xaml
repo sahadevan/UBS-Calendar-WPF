@@ -73,10 +73,9 @@
                           Margin="5" />
         </StackPanel>
 
-        <!-- Year View Grid -->
-            
-            <!-- Display each month in the year -->
-            <ItemsControl ItemsSource="{Binding YearMonths}" Visibility="{Binding IsYearView, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <!-- Year View Grid -->            
+           
+        <ItemsControl ItemsSource="{Binding YearMonths}" Visibility="{Binding IsYearView, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -115,7 +114,7 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding NumberOfMonthsToDisplay}" />
+                    <UniformGrid Columns="4" Rows="3" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -133,6 +132,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
     </StackPanel>
 </UserControl>
