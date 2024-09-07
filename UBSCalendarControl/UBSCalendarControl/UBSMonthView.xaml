@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="UBSCalendarControl.UBSMonthView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UBSCalendarControl" d:DataContext="{d:DesignInstance Type=local:UBSMonthViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:DayNumberToVisibiltyConverter x:Key="DayNumberToVisibiltyConverter" />
+        <local:HolidayBackgroundConverter x:Key="HolidayBackgroundConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <UniformGrid Grid.Row="0" Columns="7">
+            <TextBlock Text="Mo" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBlock Text="Tu" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBlock Text="We" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBlock Text="Th" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBlock Text="Fr" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBlock Text="Sa" HorizontalAlignment="Center" FontWeight="Bold" />
+            <TextBlock Text="Su" HorizontalAlignment="Center" FontWeight="Bold" />
+        </UniformGrid>
+
+        <ItemsControl ItemsSource="{Binding Path=Days}" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="7" Rows="6"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="LightGray" BorderThickness="1" Margin="1" Visibility="{Binding DayNumber, Converter={StaticResource DayNumberToVisibiltyConverter}}">
+                        <Label Content="{Binding DayNumber}"
+                           Background="{Binding IsHoliday, Converter={StaticResource HolidayBackgroundConverter}}"
+                           ToolTip="{Binding HolidayReason}"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"
+                           Margin="2" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

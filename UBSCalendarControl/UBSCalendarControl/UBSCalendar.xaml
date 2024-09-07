@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="UBSCalendarControl.UBSCalendar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UBSCalendarControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:UBSCalendarViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <!-- Credits - https://mharwood.uk/apple-style-toggle-button-in-wpf/ -->
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                <Viewbox>
+                    <Border x:Name="Border" CornerRadius="10" Background="#FFFFFFFF" Width="40" Height="20">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0.5" Direction="0" Opacity="0.3" />
+                        </Border.Effect>
+                        <Ellipse x:Name="Ellipse" Fill="#FFFFFFFF" Stretch="Uniform" Margin="2 1 2 1" Stroke="Gray" StrokeThickness="0.2" HorizontalAlignment="Stretch">
+                            <Ellipse.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="1" Opacity="0.3" Direction="260" />
+                            </Ellipse.Effect>
+                        </Ellipse>
+                    </Border>
+                </Viewbox>
+                <ControlTemplate.Triggers>
+                    <EventTrigger RoutedEvent="Checked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#FF4CD661" Duration="0:0:0.1" />
+                                <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="20 1 2 1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.1" />
+                                <ThicknessAnimation Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Margin" To="2 1 2 1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+    </UserControl.Resources>
+
+    <StackPanel>
+
+        <!-- Controls for Configuration -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <TextBlock Text="Select Year:" VerticalAlignment="Center" Margin="5" />
+            <ComboBox ItemsSource="{Binding YearOptions}"
+                      SelectedItem="{Binding SelectedYear}"
+                      Width="100"
+                      Margin="5" />
+            <TextBlock Text="Months to Display:" VerticalAlignment="Center" Margin="5" />
+            <ComboBox ItemsSource="{Binding MonthOptions}"
+                      SelectedItem="{Binding NumberOfMonthsToDisplay}"
+                      Width="100"
+                      Margin="5" />
+
+            <TextBlock Text="Year View:" VerticalAlignment="Center" Margin="10,0,5,0" />
+            <ToggleButton Content="Year View"
+                          IsChecked="{Binding IsYearView}"
+                          Margin="5" />
+        </StackPanel>
+
+        <!-- Year View Grid -->
+            
+            <!-- Display each month in the year -->
+            <ItemsControl ItemsSource="{Binding YearMonths}" Visibility="{Binding IsYearView, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid x:Name="YearGrid" Columns="4" Rows="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                            <StackPanel>
+                                <TextBlock Text="{Binding MonthName}"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Margin="5" />
+                                <local:UBSMonthView DataContext="{Binding}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        <!-- Month View Grid -->
+        <ItemsControl x:Name="MonthsGrid" 
+                      ItemsSource="{Binding Months}"
+                      Margin="10">
+            <ItemsControl.Style>
+                <Style TargetType="ItemsControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsYearView}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.Style>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding NumberOfMonthsToDisplay}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                        <StackPanel>
+                            <TextBlock Text="{Binding MonthName}"
+                                       HorizontalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Margin="5" />
+                            <local:UBSMonthView DataContext="{Binding}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </StackPanel>
+</UserControl>
