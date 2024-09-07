@@ -8,3 +8,4 @@ Build a calendar control with the following features
 No restriction on the look and feel of the control. Basic styling is sufficient and should be demonstrated.
 Do not use any 3rd party controls/tools. Only native WPF controls can be used. Application should be easy to build and run.
 
+![UBSCalendarControl](https://github.com/user-attachments/assets/438e68a2-21cd-4520-9308-df05ffc00c70)
